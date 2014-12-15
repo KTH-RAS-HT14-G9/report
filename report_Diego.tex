@@ -1,0 +1,140 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Thin Sectioned Essay
+% LaTeX Template
+% Version 1.0 (3/8/13)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original Author:
+% Nicolas Diaz (nsdiaz@uc.cl) with extensive modifications by:
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[a4paper, 11pt]{article} % Font size (can be 10pt, 11pt or 12pt) and paper size (remove a4paper for US letter paper)
+
+\usepackage[protrusion=true,expansion=true]{microtype} % Better typography
+\usepackage{graphicx} % Required for including pictures
+\usepackage{wrapfig} % Allows in-line images
+
+\usepackage{mathpazo} % Use the Palatino font
+\usepackage[T1]{fontenc} % Required for accented characters
+\linespread{1.05} % Change line spacing here, Palatino benefits from a slight increase by default
+
+\makeatletter
+\renewcommand\@biblabel[1]{\textbf{#1.}} % Change the square brackets for each bibliography item from '[1]' to '1.'
+\renewcommand{\@listI}{\itemsep=0pt} % Reduce the space between items in the itemize and enumerate environments and the bibliography
+
+\renewcommand{\maketitle}{ % Customize the title - do not edit title and author name here, see the TITLE block below
+\begin{flushright} % Right align
+{\LARGE\@title} % Increase the font size of the title
+
+\vspace{50pt} % Some vertical space between the title and author name
+
+{\large\@author} % Author name
+\\\@date % Date
+
+\vspace{40pt} % Some vertical space between the author block and abstract
+\end{flushright}
+}
+
+%----------------------------------------------------------------------------------------
+%	TITLE
+%----------------------------------------------------------------------------------------
+
+\title{\textbf{The Stallion}\\ % Title
+Group 9 Project Report\\DD2425} % Subtitle
+
+\author{\textsc{
+Tobias Andersson\\
+Max Losch\\
+Diego Martinez Marrodan\\
+Tiago Sebastiao\\
+Lan Wang} % Author
+\\{\textit{Royal Institute of Technology}}
+} % Institution
+
+\date{\today} % Date
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\maketitle % Print the title section
+
+%----------------------------------------------------------------------------------------
+%	ABSTRACT
+%----------------------------------------------------------------------------------------
+
+%\renewcommand{\abstractname}{Summary} % Uncomment to change the name of the abstract to something else
+
+\begin{abstract}
+TODO
+\end{abstract}
+
+\vspace{30pt} % Some vertical space between the abstract and first section
+
+%----------------------------------------------------------------------------------------
+%	ESSAY BODY
+%----------------------------------------------------------------------------------------
+
+\section*{Lessons Learned}
+
+\hspace{10 mm}I learned many things about robotics and also about projects more oriented to programming hardware that will work on a physical environment (the projects I did before were software oriented, and it's easier to make them work right since you don't have to care about physical variances or noise). 
+I improved some of my programming abilities, especially in C++ (a programming language that I had never used, despite I used C before).
+And also I learned some basics about control (but not computer vision since I wasn't in charge of that part of the project. TO OMIT) (DIEGO)
+
+%------------------------------------------------
+
+\section*{Navigation/Mapping (Occupancy grid)}
+\hspace{10 mm}The occupancy grid is an adaptation from the probability grid in order to represent the map in rviz.
+It uses a one-dimensional array of size \textit{width*height} where width is the width of the map represented and height is its height.
+It contains values 0, 100 or others. 
+The color representation of those values in the map visualization is white, black and grey respectively.
+0 represents that the cell is unoccupied; 100 that it is occupied; and anything else is unknown.
+
+
+%------------------------------------------------
+
+\section*{Controlling (wall following, imu)}
+\hspace{10 mm}The wall following controller uses the IR sensors to measure the distances from the robot to the walls, and works as follows: if both walls are close to the robot (distance < 0.4 m), then keep the robot aligned to the walls in the center.
+If the left wall is close but the right one is far, follow the left wall.
+And if the right wall is close but the left one is far, follow the right wall.
+It also can be activated/deactivated when needed (e.g. when turning) sending a signal.\\
+
+\hspace{10 mm}The IMU is used to detect collisions. 
+To do so, we look for peaks in the \textit{/imu/data/linear\_acceleration/y} topic, what would indicate a front collision of the robot with the wall.
+To detect these peaks, we apply a high pass filter and then we send a signal to the brain when this filtered signal exceeds a threshold.
+
+%------------------------------------------------
+
+%\section*{Conclusion}
+
+%Herpa derpa derp.
+
+%\begin{enumerate}
+%\item First numbered list item
+%\item Second numbered list item
+%\end{enumerate}
+
+%Donec luctus tincidunt mauris, non ultrices ligula %aliquam id. Sed varius, magna a faucibus congue, arcu %tellus pellentesque nisl, vel laoreet magna eros et %magna. 
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY
+%----------------------------------------------------------------------------------------
+
+\bibliographystyle{unsrt}
+
+\bibliography{sample}
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
