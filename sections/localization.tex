@@ -1,0 +1,53 @@
+\section{Localization}
+
+Observing the created map given the regular odometry, indicated problems with the heading of the robot.
+A constant drift was observable while turning and because angular errors accumulate during turns,
+the map got in danger of falling into an unusable state.
+Completing a complete round trip in the maze, would inevitably lead to overlapping walls and free space,
+making navigation hard or impossible.\\
+
+The common and generic approach for localization would be to use some kind of Bayesian Filter,
+which corrects the odometry by receiving measurements from the environment.
+Due to very little time until the third milestone, which required to have a basic localization implemented,
+it was decided to not spend time on any sophisticated solutions like Kalman or Particle Filter.
+Instead, systematic errors were minimized and the prior knowledge of rectangular walls was exploited to use IR readings to correct
+the heading of the robot to well defined events.
+
+To minimize systematic errors, too approaches were implemented.
+The first and easiest approach is to fix the error in the wheel distance (in the following called base distance) by doing manual hill climbing.
+This can be performed when letting the robot turn for at least 3 complete revolutions and roughly determine if the turning overshooted or undershooted.
+Based on this information, the base distance can be adjusted accordingly.
+The process was repeated until there was no significant drift left.
+
+Furthermore, as stated in \ref{OdomCorr}, a systematic error can be non equal wheel diameters.
+Due to different weight distributions and that the wheels are made of soft plastic, 
+the wheel diameter can differ in the magnitude of one millimeter. 
+Although this is hardly noticeable in the length of the maze it was decided to give it a try.
+As described in \ref{OdomCorr} five clockwise and five counter-clockwise runs were performed in a 4mx4m region.
+The results were somewhat disappointing though. 
+The calculated difference in the wheel diameters turned out to be too large which made the odometry worse than before.
+The unexpected result is probably an issue of another systematic error in performing the measurement of the actual position.
+It would be advised to perform more than 5 runs to reduce these errors.
+
+Having the angular drift minimized was enough to achieve satisfying results.
+To achieve an overall better localization, it was decided on using the IR sensors and also segmented planes from the point cloud, to estimate the position of the robot more accurately.
+The IR sensors were used to correct the heading of the robot, by calculating the actual heading from the two side sensors (see equation \ref{eq:ir_theta}).
+A precondition that has to be valid to correct $\Theta$ this way, is that the wall next to the robot has to be planar.
+This was approached, by only correcting theta after a turn has been performed and only if the calculated theta did not significantly differ from the current estimated odometry.
+
+\begin{equation}
+\Theta = tan^{-1}\left( \frac{ d_{ir_{front}} - d_{ir_{back}} }{dist(ir_{front}, ir_{back})} \right)
+\label{eq:ir_theta}
+\end{equation}
+
+To also correct the position and not only the heading, information about walls were combined with the built map.
+Splitting the position in a lateral (y-axis) and a longitudinal (x-axis) part, enables to simplify the correction into two steps.
+The longitudinal correction can be solved by casting a ray from robot to the forward facing wall and comparing it with casting a ray in the constructed grid map.
+As the point cloud gives quite accurate results when close and while standing, the x position of the robot can be easily corrected.
+A very similar approach can be used to correct the lateral direction. 
+By comparing the result of a physical IR raycast of the side sensors with a raycast in the grid map, one can derive the correct y position in the map.
+Both lateral and longitudinal correction only works, when a map is given and not updated.
+For exploration, only the heading correction can be used.\\
+
+The final solution did not use the lateral and the longitudinal correction.
+Although implemented it could not be tested properly due to changed priorities.
