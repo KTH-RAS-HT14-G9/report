@@ -19,11 +19,11 @@ This can be performed when letting the robot turn for at least 3 complete revolu
 Based on this information, the base distance can be adjusted accordingly.
 The process was repeated until there was no significant drift left.
 
-Furthermore, as stated in \ref{OdomCorr}, a systematic error can be non equal wheel diameters.
+Furthermore, as stated in \cite{OdomCorr}, a systematic error can be non equal wheel diameters.
 Due to different weight distributions and that the wheels are made of soft plastic, 
 the wheel diameter can differ in the magnitude of one millimeter. 
 Although this is hardly noticeable in the length of the maze it was decided to give it a try.
-As described in \ref{OdomCorr} five clockwise and five counter-clockwise runs were performed in a 4mx4m region.
+As described in \cite{OdomCorr} five clockwise and five counter-clockwise runs were performed in a 4mx4m region.
 The results were somewhat disappointing though. 
 The calculated difference in the wheel diameters turned out to be too large which made the odometry worse than before.
 The unexpected result is probably an issue of another systematic error in performing the measurement of the actual position.
