@@ -1,0 +1,66 @@
+\section{Vision}
+
+The vision part of the project can be divided in 3 different parts.
+They are object detection, shape recognition and color recognition.
+While both shape and color recognition both rely on the accuracy and overall results of the object detection algorithm, they are totally independant. 
+The final result of the whole object recognition part of the project is done after having reliable data form each of the components, color and shape.
+In this part we chose to implement everything upon the Point Cloud Library. This choice is fundamented by the added functionality of actually being able to represent the objects and walls and ground by points in 3D and not in a 2D picture. Of course it is possible to convert between these two representations, but the PCL library has already a lot of useful functions that were able to decrease the amount of data manipulation.
+
+\subsection{Object Detection}
+
+Here we discuss how we implemented our object detection algorithm as well as how it worked out in practice.
+The main idea is that we know that the objects are at ground level.
+If we can detect the ground, we can then set some boundaries on the presence of the object above it, hence increasing the chances of detecting an object.
+So the first part was find the walls and ground. To do this we used a very famous algorithm called RANSAC, Random Sample Consensus. This algorithm exploits the fact that we are trying to find a special kind of order (model) among our data.
+In our case, our data is the point cloud at a given time and the model are planes. 
+By trying to fit planes in the point cloud, the algorithm is able to distinguish between inliers, points in some specific plane, and outliers, like noise or indeed the objects we are trying to find.
+Now that we have the ground plane, we define a region of interest of about 5 cm high above it, where, if we can detect enough points, we will group them and afterwards classify them.
+Note that it is possible to have 2 objects that satisfy the ground distance criteria and hence the conditions for an interesting group of points to exist is constrained by its size.
+When this algorithm ends, we know one of two things:
+\begin{enumerate}
+\item there is no object in the frame
+\item there is at least one region of interest
+\end{enumerate}
+ 
+\subsection{Shape Recognition}
+
+In this section we explain our logic behind the shape recognition algorithm.
+The general idea was again model fitting.
+We know about 3 very specific models that we want to try, cube, cylinder and sphere, and we have two objects with no general model.
+The PCL library has available the RANSAC algorithm to fit some predifined models, like planes, spheres and cylinders. 
+And that is what we used. 
+The sphere fitting and cylinder are straightforward since they work exactely like the plane fitting mentioned above, the only difference being that the model is no longer a plane.
+Hence they work in similar way as the plane fitting.
+The big difference is the cube.
+To recognize a cube we do plane fitting too, but we impose some conditions of the planes.
+
+\begin{enumerate}
+\item if 3 planes are detected then it's a cube
+\item there has to be a parallel plane relative to the ground
+\item distance between the ground plane and the parallel plane described above must be reasonable
+\item the furthest plane must be the parallel plane
+\end{enumerate}
+
+The constraints above limit the possibility of noise being misclassified, as well as other shapes being mischaracterized.
+There was obviously some empirical testing in order to find the best parameters for the RANSAC model fitting, like: 
+
+\begin{itemize}
+\item MAX:: I know some of them but can't remember their function
+\end{itemize}
+
+
+\subsection{Color Recognition}
+
+Extracting the color values from an image, or in our case from points, is not a hard task. 
+However, to give meaning to those values is harder, since the color itself depends on a rather large number of factors like available light, its intensity, its color, among others.
+This makes it hard to obtain a robust but consistent color recognition algorithm.
+Our approach was very empirical. The analysis is made per color possible and not all at once, even though the algorithm is the same whatever the color.
+We started by analising the HSV (hue, saturation, value) values we got from the regions of interest, mainly the hue, which is what defines the color. 
+We then tried to find meaning in those values, mainly their average.
+We concluded that for the most part, the overall average of hues of all the points in the region of interest would be enough to obtain a good estimate of the color. 
+So we defined an area our each color mean value around which the color will be.
+The bigger the margin, the more robust the algorithm would be.
+However, because of the specific colors, the margin could not be too large, or the added robustness would not be reliable, as colors would start to mix.
+Because different conditions may lead to very different results, we weighted two times the previous result based on specific situations, mainly, the percentage of points that have the color being tested relative to the total number of points, and the probability of being of the color being analysed, i.e., considering the point clouds don't usually have that many points, we give a higher weight to probabilities above a certain value.
+Because the blob of interest may have points not only belonging to the object we want, but also from the ground or wall (if the object is very close to one), the number of points that have a color similar to orange, color of the ground, is also relevant in deciding the true color of the object, and hence helps in determining the weight of the probability of the color being analysed.
+The end result is a somewhat robust algorithm and consistent as far as our testing went. 
