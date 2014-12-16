@@ -1,0 +1,48 @@
+\section{About The Robot}
+\subsection{Robot Structure}
+
+The construction of our robot, which is called The Stallion(or Cute Girl), took about 1.5 weeks.
+We managed to make the robot structure as compact as possible, so that it can get more freedom within the maze.
+The dimention of the robot can be seen as below.
+
+%\begin{figure} 
+%  \centering 
+%  \subfigure[A]{ 
+%    \label{fig:subfig:a} %% label for first subfigure 
+%    \includegraphics[width=1.0in]{robot.jpg}} 
+%  \hspace{1in} 
+%  \subfigure[Big Box]{ 
+%    \label{fig:subfig:b} %% label for second subfigure 
+%    \includegraphics[width=1.5in]{dimentions.png}} 
+%  \caption{Two Subfigures} 
+%  \label{fig:subfig} %% label for entire figure 
+%\end{figure}
+\begin{figure}[h]
+\centering
+\includegraphics[width=8cm]{figures/dimensions.jpg}
+\caption{Robot Top View and Sensor Plancement} 
+\end{figure}
+
+\setlength{\parindent}{0pt}Since the robot is constructed with the same length and width of 24cm, when it turns, it will never hit the front wall as long as there was space left in front before it turns.
+The robot has two layers. On the bottom layer, motors, wheels are mounted in the center and all sensors are fixed on this layer as well.
+On the top layer,the Arduino board, the camera braket are fixed.
+Also there are two big holes on the top layer, where fits perfectly in the NUC and the battery.
+While since the NUC is actually standing between two layers with its USB connectors facing sideways, the connectors almost touched the wheels.
+This problem was fixed by hanging the cables tightly upwards.
+It was good that we didn't rebuild the robot or spend lots of time on modification of the mechanical structure with the project proceeding. 
+
+\subsection{Sensor Placement}
+There are 6 IR sensors, one IMU sensor integrated on the robot.
+On each side of the robot,two short range IR sensors are mounted with distance inbetween as far as possible, in order to get a better esitmation of the robot angle. 
+And two long range IR sensors pointed to the front with an angle adjustment to the robot center.  
+The reason why the front IR sensors are not pointed directly to the front is because if we do that, when there are obstacles come to the area exactly between the two front sensors, nothing will be detected.
+With crossed sensors,an triangle area will be formed,thus it guarantees front obstacle detection.
+Actually, we took advantages of such placement when dealing with the 'wall of death '.\\
+
+\setlength{\parindent}{0pt}There is also an IMU sensor mounted on the bottom layer, we used it for detection of crash.When the robot crashes into an obstacle, the IMU will send the current time to brain to reset.
+And the robot will try to go backwards and continue it's path again.
+
+\subsection{Camera Placement}
+Since the PrimeSense has a minimal working range of 35 cm, the camera is fixed on top of an aluminium tower with height of 28cm above the floor. 
+The system is not sensitive to the camera angle since software calibration of camera angle will be executed when the vision is started.
+Thus we are able to give position of detected objects precisely without caring a lot about the camera angle.

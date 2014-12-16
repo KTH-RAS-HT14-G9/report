@@ -1,0 +1,22 @@
+\section{Lessons learned}
+
+%% Lan --->
+For the object detection and classification.
+We had problems regarding shape recognition since plane fitting with RANSAC didn't work well with a noisy camera. 
+Instead of point cloud,image based recognition with OpenCV might worth a try. 
+Contours of the object can be approximated or detected with line or corner detector, and different shapes should have different characters regarding contours.
+Or a Bayes Classifier can be tried as well. \\
+
+\setlength{\parindent}{0pt}A Topological map has been implemented, but it took lots of time to implement and debug.
+Maybe it's not really necessary.
+Navigation can be implemented based on the occupancy grid map, the odometry, as well as the 'have seen' map. 
+So that the robot does not get confused by the unnessesary nodes it dropped, such as explore some unknow direction which does not actually exits.\\
+
+\setlength{\parindent}{0pt}More protection should be implemented for the robot crash.
+The IMU seems to be a good choise to get information about from which direction the robot crashes.
+Now we only use y axis data, and the robot only goes backwards when the IMU detect crash, since it doesn't know to which direction the obstacle is.
+But it can not always solve problems.
+Sometimes when the robot crashes into a wall three times in a row, the brain will be dead.
+If we read both x and y axis IMU data, we could know to which direction to turn in order to avoid the obstacle.
+
+%% <---
