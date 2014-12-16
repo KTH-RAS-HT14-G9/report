@@ -10,10 +10,10 @@ Any cell with a value higher than the prior is considered to be occupied, and an
 When a cell is within the field of view of an IR sensor the probability of that cell being occupied is updated according to the following fomula:
 
 \begin{equation}
-p_{x, y} = p_{x, y} + p_{new} - p_{prior}
+p_{x, y} = p_{x, y} + p_{t} - p_{prior}
 \end{equation}
 
-where $p_{new}$ is the tentative belief that the cell is occupied. The cell where the sensor hit an obstacle and the surrounding cells will have a high tentative belief, and the cells between the hit cell and the robot will have a low tentative belief. By taking previous observations in to account, the model is less sensetive to sensor noise. \cite{GridLecture}
+where $p_{t}$ is the tentative belief that the cell is occupied. The cell where the sensor hit an obstacle and the surrounding cells will have a high tentative belief, and the cells between the hit cell and the robot will have a low tentative belief. By taking previous observations in to account, the model is less sensetive to sensor noise. \cite{GridLecture}
 
 The grid has a resolution of one cell per square centimater, and a fixed size of 1000 by 1000 cells. 
 The robot always starts in the middle of the grid, which means that it can go five meters in any direction without going out of bounds, which was enough.
@@ -23,15 +23,15 @@ In order to decide which directions of the new node contain unexplored space the
 A direction is considered unexplored if the ratio of occupied cells and seen cells is below the respective thresholds.
 
 \subsection{Seen map}
-The ``seen map'' is a map which contains an estimation of which areas of the map that the primesense has seen. 
+The ``seen map'' is contains an estimation of which areas of the map that the primesense has seen. 
 It is implemented by marking a trapezoid as seen in front of the robot in each time step. 
 As previously stated, it is used in conjunction with grid map to decide which areas of the map are unexplored. 
 This saves us a lot of unnecessary exploration.
 
 \subsection{Topological map}
-The topological is our primary tool for navigation. Nodes are placed when the robot encounters an obstacle, when an intersection is detected, when an object is recognized, and at the starting position. When a node is placed the four compass directions (north, east, south and west) are marked as either unexplored or blocked, according on the previously stated condition. This does not apply to the direction from which we came, which is connected to the previous node instead. When we return to a node a connection is also made to the previous node.
+The topological is our primary tool for navigation. Nodes are placed when the robot encounters an obstacle, when an intersection is detected, when an object is recognized, and at the starting position. When a node is placed the four compass directions (north, east, south and west) are marked as either unexplored or blocked, according to the previously stated condition. This does not apply to the direction from which we came, which is connected to the previous node instead. When we return to a node a connection is also made to the previous node.
 
-To navigate in the maze the topological map offers a service that let's the master node navigate to the next point of interest, which can be either an unexplored area, or an object, depending on which mode is activated. Dijkstra's algorithm is used to find the shortest path.
+To navigate in the maze the topological map offers a service that let's the master node navigate to the next point of interest, which can be either the closest unexplored area, or an object, depending on which mode is activated. Dijkstra's algorithm is used to find the shortest path.
 
 \begin{figure}[h]
 \begin{center}
