@@ -77,10 +77,12 @@ Lan Wang} % Author
 %\renewcommand{\abstractname}{Summary} % Uncomment to change the name of the abstract to something else
 
 \begin{abstract}
-Morbi tempor congue porta. Proin semper, leo vitae faucibus dictum, metus mauris lacinia lorem, ac congue leo felis eu turpis. Sed nec nunc pellentesque, gravida eros at, porttitor ipsum. Praesent consequat urna a lacus lobortis ultrices eget ac metus. In tempus hendrerit rhoncus. Mauris dignissim turpis id sollicitudin lacinia. Praesent libero tellus, fringilla nec ullamcorper at, ultrices id nulla. Phasellus placerat a tellus a malesuada.
+An abstract.
 \end{abstract}
 
-\vspace{30pt} % Some vertical space between the abstract and first section
+\newpage
+\tableofcontents
+\newpage
 
 %----------------------------------------------------------------------------------------
 %	ESSAY BODY
@@ -90,31 +92,32 @@ Morbi tempor congue porta. Proin semper, leo vitae faucibus dictum, metus mauris
 \input{sections/Localization}
 \input{sections/Controlling}
 
-\section*{Section Name}
+% Example section
 
-Cras gravida, est vel interdum euismod, tortor mi lobortis mi, quis adipiscing elit lacus ut orci. Phasellus nec fringilla nisi, ut vestibulum neque. Aenean non risus eu nunc accumsan condimentum at sed ipsum.
+\section*{Example section}
+
+Cras gravida, est vel interdum euismod, tortor mi lobortis mi, quis adipiscing elit lacus ut orci. 
+Phasellus nec fringilla nisi, ut vestibulum neque. 
+Aenean non risus eu nunc accumsan condimentum at sed ipsum.
+
 \begin{wrapfigure}{l}{0.4\textwidth} % Inline image example
 \begin{center}
 \includegraphics[width=0.38\textwidth]{fish.png}
 \end{center}
 \caption{Fish}
 \end{wrapfigure}
-Aliquam fringilla non diam sed varius. \cite{Smith:2012qr} Suspendisse tellus felis, hendrerit non bibendum ut, adipiscing vitae diam. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla lobortis purus eget nisl scelerisque, commodo rhoncus lacus porta. Vestibulum vitae turpis tincidunt, varius dolor in, dictum lectus. Aenean ac ornare augue, ac facilisis purus. Sed leo lorem, molestie sit amet fermentum id, suscipit ut sem. Vestibulum orci arcu, vehicula sed tortor id, ornare dapibus lorem. Praesent aliquet iaculis lacus nec fermentum. Morbi eleifend blandit dolor, pharetra hendrerit neque ornare vel. Nulla ornare, nisl eget imperdiet ornare, libero enim interdum mi, ut lobortis quam velit bibendum nibh.\cite{Smith:2013jd}
-
-Morbi tempor congue porta. Proin semper, leo vitae faucibus dictum, metus mauris lacinia lorem, ac congue leo felis eu turpis. Sed nec nunc pellentesque, gravida eros at, porttitor ipsum. Praesent consequat urna a lacus lobortis ultrices eget ac metus. In tempus hendrerit rhoncus. Mauris dignissim turpis id sollicitudin lacinia. Praesent libero tellus, fringilla nec ullamcorper at, ultrices id nulla. Phasellus placerat a tellus a malesuada.
-
-%------------------------------------------------
-
-\section*{Conclusion}
-
-Herpa derpa derp.
+Aliquam fringilla non diam sed varius. \cite{Smith:2012qr} 
+Suspendisse tellus felis, hendrerit non bibendum ut, adipiscing vitae diam.
+ Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+ Nulla lobortis purus e\cite{Smith:2013jd}
 
 \begin{enumerate}
 \item First numbered list item
 \item Second numbered list item
 \end{enumerate}
 
-Donec luctus tincidunt mauris, non ultrices ligula aliquam id. Sed varius, magna a faucibus congue, arcu tellus pellentesque nisl, vel laoreet magna eros et magna. 
+Donec luctus tincidunt mauris, non ultrices ligula aliquam id. 
+Sed varius, magna a faucibus congue, arcu tellus pellentesque nisl, vel laoreet magna eros et magna. 
 
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY
@@ -122,7 +125,7 @@ Donec luctus tincidunt mauris, non ultrices ligula aliquam id. Sed varius, magna
 
 \bibliographystyle{unsrt}
 
-\bibliography{sample}
+\bibliography{references}
 
 %----------------------------------------------------------------------------------------
 
