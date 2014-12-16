@@ -1,0 +1,12 @@
+\section{Exploration}
+
+The robot is controlled by a master node called the ``brain''. 
+The brain is a state machine that is implemented with a the ROS package SMACH. 
+In order to use SMACH the brain had to be implemented in python and it is the only node in the project which does not use C++.
+The basic strategy of the brain is to go forward until it detects something interesting. 
+When an obstacle is encountered, it turns left, right, or back in order of prefrence. 
+When an object is detected the brain will go closer or further away from the object to reach the optimal recognition distance, then turn towards the object, and then activate the recognition, to attempt to recognize the object.
+When a previously visited node is detected the brain will enter follow graph mode.
+Follow graph mode will take the robot to the closest unexplored area in phase one, and will follow the whole TSP tour and visit all objects in phase two.
+The brain also has a state to recover from a crash reported by the IMU, which is sadly a little too unsophisticated, but still helps quite a lot. When a crash is detected the state of the brain will be reset, i.e. stop, and reset all flags. Then the robot will back away from the crash site, turn towards the direction at the current node that is unexplored (if any), and then resume operation.
+
