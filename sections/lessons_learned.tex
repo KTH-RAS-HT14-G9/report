@@ -4,8 +4,8 @@ Regarding group work everybody has learned that it is important to maintain a pe
 The first weeks were scattered with periods of time were few people invested time and so all the major changes happened in the last weeks.
 This obviously results in hassle and cluttered code, leading to bugs.
 
-Regarding vision, there were problems with the shape classification since RANSAC didn't work well the data given from the camera. 
-Instead of only rely on the point cloud, an image based approached for object recognition with OpenCV might have been worth a try. 
+Regarding vision, there were problems with the shape classification since RANSAC didn't work well. 
+Instead of only relying on the point cloud, an image based approach for object recognition with OpenCV might have been worth a try. 
 Contours of the object can be approximated or detected with line or corner detector, and different shapes should have different characters regarding contours.
 A Bayes Classifier could have been used to improve the color recognition.\\
 
@@ -14,5 +14,5 @@ A more generic approach by using navigation on the grid map could have led to be
 
 \setlength{\parindent}{0pt}More time should have been spent on making the whole system more robust to quirks of the enviroment.
 The IMU turned out to be a good choice to extract information about touches with obstacles.
-The actual crash handling, as the major issue, should have been more sophisticated.
+The actual crash handling however, should have been more sophisticated.
 It would have been advantageous to implement some kind of local obstacle avoidance.
