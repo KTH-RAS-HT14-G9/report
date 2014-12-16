@@ -1,9 +1,9 @@
 \section{About The Robot}
 \subsection{Robot Structure}
 
-The construction of our robot, which is called The Stallion(or Cute Girl), took about 1.5 weeks.
-We managed to make the robot structure as compact as possible, so that it can get more freedom within the maze.
-The dimention of the robot can be seen as below.
+The construction of our robot took about 1.5 weeks.
+We managed to make the robot structure as compact as possible, so that it takes minimal space within the maze.
+The dimensions of the robot can be seen in figure \ref{fig:robot_dim}.
 
 %\begin{figure} 
 %  \centering 
@@ -17,23 +17,36 @@ The dimention of the robot can be seen as below.
 %  \caption{Two Subfigures} 
 %  \label{fig:subfig} %% label for entire figure 
 %\end{figure}
-\begin{figure}[h]
+
+\begin{figure}
 \centering
-\includegraphics[width=8cm]{figures/dimensions.jpg}
-\caption{Robot Top View and Sensor Plancement} 
+
+\begin{subfigure}[t]{0.4\textwidth}
+\includegraphics[width=\textwidth]{figures/dimensions.jpg}
+\caption{Top View and Sensor Placements} 
+\label{fig:robot_dim}
+\end{subfigure}
+%\hfill
+\quad
+\begin{subfigure}[t]{0.4\textwidth}
+\includegraphics[width=\textwidth]{figures/robot.png}
+\caption{Front} 
+\label{fig:robot}
+\end{subfigure}
+
+\caption{Robot}
 \end{figure}
 
 \setlength{\parindent}{0pt}Since the robot is constructed with the same length and width of 24cm, when it turns, it will never hit the front wall as long as there was space left in front before it turns.
 The robot has two layers. On the bottom layer, motors, wheels are mounted in the center and all sensors are fixed on this layer as well.
 On the top layer,the Arduino board, the camera braket are fixed.
-Also there are two big holes on the top layer, where fits perfectly in the NUC and the battery.
-While since the NUC is actually standing between two layers with its USB connectors facing sideways, the connectors almost touched the wheels.
-This problem was fixed by hanging the cables tightly upwards.
-It was good that we didn't rebuild the robot or spend lots of time on modification of the mechanical structure with the project proceeding. 
+Also there are two holes in the top layer, where the NUC and the battery is placed.
+Since the NUC is standing between two layers with its USB connectors facing sideways, the usb interfaces are hard to reach and are close to the wheels when plugged in.
+A change in the overall construction was avoided by bending the cables tightly upwards.
 
 \subsection{Sensor Placement}
-There are 6 IR sensors, one IMU sensor integrated on the robot.
-On each side of the robot,two short range IR sensors are mounted with distance inbetween as far as possible, in order to get a better esitmation of the robot angle. 
+There are 6 IR sensors and one IMU sensor integrated at the center of the lower plate.
+On each side of the robot, two short range IR sensors are mounted with distance inbetween as far as possible, in order to get a better esitmation of the robot angle. 
 And two long range IR sensors pointed to the front with an angle adjustment to the robot center.  
 The reason why the front IR sensors are not pointed directly to the front is because if we do that, when there are obstacles come to the area exactly between the two front sensors, nothing will be detected.
 With crossed sensors,an triangle area will be formed,thus it guarantees front obstacle detection.
