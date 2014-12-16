@@ -11,29 +11,54 @@ it was later on also used to exploit wall and ground information for mapping and
 \label{fig:object_set}
 \end{figure}
 
-The vision part of the project can be divided in 3 different parts.
-They are object detection, shape recognition and color recognition.
-While both shape and color recognition both rely on the accuracy and overall results of the object detection algorithm, they are totally independent. 
-The final result of the whole object recognition part of the project is done after having reliable data form each of the components, color and shape.
-In this part we chose to implement everything upon the Point Cloud Library. 
-This choice is based on the added functionality of actually being able to represent the objects and walls and ground by points in 3D and not in a 2D picture. 
-And such having more information about the object structure and additionally being less dependent on illumination changes.
-Of course it is possible to convert between these two representations, but the PCL library has already a lot of useful functions that were able to decrease the amount of data manipulation.
+\subsection{Object detection}
 
-\subsection{Object Detection}
+It was decided upon using the 3D information from the primesense to reduce susceptibility to illumination changes and to gain more information about the structure of objects.
+Processing of the point cloud is mostly done with using the library \textit{Point Cloud Library}.
+The detection and recognition can be divided in 4 different steps (see figure \ref{fig:vision:obj_det}).
 
-The main idea is that we know that the objects are at ground level.
-If we can detect the ground, we can then set some boundaries on the presence of the object above it, hence increasing the chances of detecting an object.
-So the first part was find the walls and ground. Here, RANSAC was used. This algorithm exploits the fact that we are trying to find a special kind of order (model) among our data.
-In our case, our data is the point cloud at a given time and the model are planes. 
-By trying to fit planes in the point cloud, the algorithm is able to distinguish between inliers, points in some specific plane, and outliers, like noise or indeed the objects we are trying to find.
-Now that we have the ground plane, we define a region of interest of about 5 cm high above it, where, if we can detect enough points, we will group them and afterwards classify them.
-Note that it is possible to have 2 objects that satisfy the ground distance criteria and hence the conditions for an interesting group of points to exist is constrained by its size.
-When this algorithm ends, we know one of two things:
-\begin{enumerate}
-\item there is no object in the frame
-\item there is at least one region of interest
-\end{enumerate}
+\begin{itemize}
+\item \textbf{Calibration:}
+Takes the ground plane from the segmented planes and calculates the camera pitch and height.
+\item \textbf{Transformation and subsampling:}
+Receives a calibration matrix from the calibration and transforms the point cloud accordingly.
+Simultaneously it downsamples the point cloud to reduce the number of points and so increase the processing speed in later steps.
+\item \textbf{Plane segmentation:}
+Takes in the subsampled point cloud and downsamples it even further so that only 1500 points are left.
+Instead of using the regular approach of using voxel grid downsampling, offered by the PCL library,
+the downsampling is performed by randomly picking 1500 points.
+This is sufficient to have enough features on the planes.
+RANSAC is applied to find all planes, until only a fraction of points is left unclassified (see result in figure \ref{fig:vision:seg_planes}).
+To make use of the planes in mapping this step also calculates the oriented bounding box that the points on the plane encompasses.
+Because two walls can lie on the same plane, a cluster segmentation is necessary to make the distinction.
+The embedded euclidean cluster extraction turned out to be very expensive.
+It was therefore decided to implement a 1D cluster segmentation. 
+This can be achieved by projecting all points on the orthogonal vector of the planes normal vector, sorting them and finding gaps.
+\item \textbf{ROI extraction:}
+Takes in the segmented planes and removes all points in the point cloud that lie on that plane with regard to some distance threshold.
+Euclidean cluster extraction, as implemented in the PCL library is applied to find clusters. 
+Clusters that contain points lieing outside a given distance to the ground plane are immidiately dismissed.
+The remaining clusters define the regions of interests (ROIs) and can be used for further processing.
+\end{itemize}
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{1.0\textwidth}
+\centering
+\includegraphics[width=0.8\textwidth]{figures/vision_planes.png}
+\caption{Segmented planes. \textbf{Green:} Case when two unconnected walls are interpreted as one plane. Only the largest part is taken. \textbf{White:} Non segmented points.}
+\label{fig:vision:seg_planes}
+\vspace{10pt}
+\end{subfigure}
+\begin{subfigure}[b]{1.0\textwidth}
+\includegraphics[width=0.8\textwidth]{figures/vision_roi_ball.png}
+\centering
+\caption{Segmented regions of interest. \textbf{Red:} ROI of a sphere. \textbf{Skewed rectangles:} Planes from (a). \textbf{Bottom sandwich:} Ground plane and maximum distance for accepting a cluster as a region of interest.}
+\label{fig:vision:seg_rois}
+\end{subfigure}
+\caption{Results of the object detection}
+
+\end{figure}
 
 \begin{figure}
 \begin{center}
