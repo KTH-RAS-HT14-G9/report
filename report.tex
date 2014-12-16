@@ -27,6 +27,7 @@
 \usepackage{gensymb}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{rotating}
 
 \usepackage{mathpazo} % Use the Palatino font
 \usepackage[T1]{fontenc} % Required for accented characters
@@ -79,9 +80,7 @@ Lan Wang} % Author
 
 %\renewcommand{\abstractname}{Summary} % Uncomment to change the name of the abstract to something else
 
-\begin{abstract}
-Morbi tempor congue porta. Proin semper, leo vitae faucibus dictum, metus mauris lacinia lorem, ac congue leo felis eu turpis. Sed nec nunc pellentesque, gravida eros at, porttitor ipsum. Praesent consequat urna a lacus lobortis ultrices eget ac metus. In tempus hendrerit rhoncus. Mauris dignissim turpis id sollicitudin lacinia. Praesent libero tellus, fringilla nec ullamcorper at, ultrices id nulla. Phasellus placerat a tellus a malesuada.
-\end{abstract}
+\input{sections/abstract}
 
 \vspace{30pt} % Some vertical space between the abstract and first section
 
@@ -94,12 +93,11 @@ Morbi tempor congue porta. Proin semper, leo vitae faucibus dictum, metus mauris
 \input{sections/Localization}
 \input{sections/Mapping}
 \input{sections/vision}
-%Integration
 \input{sections/brain}
 \input{sections/performance}
 \input{sections/conslutions}
 \input{sections/lessons_learned}
-
+\input{sections/appendix}
 
 %----------------------------------------------------------------------------------------
 %	BIBLIOGRAPHY

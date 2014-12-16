@@ -11,14 +11,6 @@ In the first iteration, we had the states: go forward, obstacle detected, turnin
 % need to insert image? it's super easier to explain (i could find it in the wiki, i thouth it was there)
 The general architecture of the first iteration of the brain is presented in figure \ref{fig:1st_architecture}
 
-\begin{figure}
-\centering
-\includegraphics[width=1.0\textwidth]{figures/architecture_full.pdf}
-% maybe put it elsewhere because of size?
-\caption{Caption}
-\label{fig:1st_architecture}
-\end{figure}
-
 With all the changes, i.e., by building on top of itself, we culminated we the states: explore, obstacle detected, object detected, follow graph and recover from crash.
 Obviously the challenge is not to define the states themselves, but the conditions that lead from one state to the other.
 As the project got more and more complex, so did the functions, state conditions and states themselves.
