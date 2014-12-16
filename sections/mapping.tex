@@ -4,16 +4,16 @@ In order to navigate in the maze three map layers are used. The first layer is a
 \subsection{Occupancy grid}
 An occupancy grid is essentially a matrix where each cell is either occupied, free or unknown. 
 The internal representation contains the probability that a cell is occupied in log odds notation \cite{wiki:Logit}.
-An unknown cell contains our prior belief that a cell is occupied, in our model that was $l(0.5)$, i.e. it is as likely to be occupied as free. 
+An unknown cell contains our prior belief that a cell is occupied, in our model that was $l(0.5)$, i.e. it is as likely to be occupied as free.  
 Any cell with a value higher than the prior is considered to be occupied, and any cell with a smaller value is considered to be free.
 
-When a cell is within the field of view of an IR sensor the probability of that cell being occupied is update according to the following fomula:
+When a cell is within the field of view of an IR sensor the probability of that cell being occupied is updated according to the following fomula:
 
 \begin{equation}
 p_{x, y} = p_{x, y} + p_{new} - p_{prior}
 \end{equation}
 
-where $p_{new}$ is the tentative belief that the cell is occupied. By taking previous observations in to account, the model is less sensetive to sensor noise. \cite{GridLecture}
+where $p_{new}$ is the tentative belief that the cell is occupied. The cell where the sensor hit an obstacle and the surrounding cells will have a high tentative belief, and the cells between the hit cell and the robot will have a low tentative belief. By taking previous observations in to account, the model is less sensetive to sensor noise. \cite{GridLecture}
 
 The grid has a resolution of one cell per square centimater, and a fixed size of 1000 by 1000 cells. 
 The robot always starts in the middle of the grid, which means that it can go five meters in any direction without going out of bounds, which was enough.
