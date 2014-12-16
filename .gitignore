@@ -1,5 +1,6 @@
-*.pdf
+report.pdf
 .DS_Store
+*.graphml
 *.aux
 *.bbl
 *.blg

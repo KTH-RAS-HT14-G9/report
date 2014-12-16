@@ -1,17 +1,30 @@
 \section{Vision}
 
+Although the main intent of the vision was to detect the given set of objects (see figure \ref{fig:object_set},
+it was later on also used to exploit wall and ground information for mapping and localization functionality.
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.38\textwidth]{figures/object_dataset}
+\end{center}
+\caption{Object data set}
+\label{fig:object_set}
+\end{figure}
+
 The vision part of the project can be divided in 3 different parts.
 They are object detection, shape recognition and color recognition.
-While both shape and color recognition both rely on the accuracy and overall results of the object detection algorithm, they are totally independant. 
+While both shape and color recognition both rely on the accuracy and overall results of the object detection algorithm, they are totally independent. 
 The final result of the whole object recognition part of the project is done after having reliable data form each of the components, color and shape.
-In this part we chose to implement everything upon the Point Cloud Library. This choice is fundamented by the added functionality of actually being able to represent the objects and walls and ground by points in 3D and not in a 2D picture. Of course it is possible to convert between these two representations, but the PCL library has already a lot of useful functions that were able to decrease the amount of data manipulation.
+In this part we chose to implement everything upon the Point Cloud Library. 
+This choice is based on the added functionality of actually being able to represent the objects and walls and ground by points in 3D and not in a 2D picture. 
+And such having more information about the object structure and additionally being less dependent on illumination changes.
+Of course it is possible to convert between these two representations, but the PCL library has already a lot of useful functions that were able to decrease the amount of data manipulation.
 
 \subsection{Object Detection}
 
-Here we discuss how we implemented our object detection algorithm as well as how it worked out in practice.
 The main idea is that we know that the objects are at ground level.
 If we can detect the ground, we can then set some boundaries on the presence of the object above it, hence increasing the chances of detecting an object.
-So the first part was find the walls and ground. To do this we used a very famous algorithm called RANSAC, Random Sample Consensus. This algorithm exploits the fact that we are trying to find a special kind of order (model) among our data.
+So the first part was find the walls and ground. Here, RANSAC was used. This algorithm exploits the fact that we are trying to find a special kind of order (model) among our data.
 In our case, our data is the point cloud at a given time and the model are planes. 
 By trying to fit planes in the point cloud, the algorithm is able to distinguish between inliers, points in some specific plane, and outliers, like noise or indeed the objects we are trying to find.
 Now that we have the ground plane, we define a region of interest of about 5 cm high above it, where, if we can detect enough points, we will group them and afterwards classify them.
@@ -21,6 +34,16 @@ When this algorithm ends, we know one of two things:
 \item there is no object in the frame
 \item there is at least one region of interest
 \end{enumerate}
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.45\textwidth]{figures/arch_vision_obj_det.pdf}
+\end{center}
+\caption{Object detection - Process flow}
+\label{fig:vision:obj_det}
+\end{figure}
+ 
+\subsection{Object recognition} 
  
 \subsection{Shape Recognition}
 
@@ -64,3 +87,11 @@ However, because of the specific colors, the margin could not be too large, or t
 Because different conditions may lead to very different results, we weighted two times the previous result based on specific situations, mainly, the percentage of points that have the color being tested relative to the total number of points, and the probability of being of the color being analysed, i.e., considering the point clouds don't usually have that many points, we give a higher weight to probabilities above a certain value.
 Because the blob of interest may have points not only belonging to the object we want, but also from the ground or wall (if the object is very close to one), the number of points that have a color similar to orange, color of the ground, is also relevant in deciding the true color of the object, and hence helps in determining the weight of the probability of the color being analysed.
 The end result is a somewhat robust algorithm and consistent as far as our testing went. 
+
+\begin{figure}
+\begin{center}
+\includegraphics[width=0.45\textwidth]{figures/arch_vision_obj_rec.pdf}
+\end{center}
+\caption{Object recognition - Process flow}
+\label{fig:vision:obj_rec}
+\end{figure}
