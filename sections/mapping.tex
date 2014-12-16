@@ -40,3 +40,11 @@ To navigate in the maze the topological map offers a service that let's the mast
 \caption{A screenshot of all map layers in rviz. The robot is the large cube. Nodes are represented by the small cubes (except objects, which are the points with an edge to them without a cube). The have seen map is represented by the yellowish lines. In this image the robot is running phase two. It has recognized two objects, returned to the start, and is now on its way to fetch the objects. The edges that make up the TSP tour are blue.}
 \label{fig:arch_controller}
 \end{figure}
+
+\subsection{Path following}
+Although an actual controller, the path follower (in figure \ref{fig:1st_architecture} the top most instance called \textit{Goto}),
+takes a path of points in the map, optimizes and follows it.
+Because the path follower is going node by node, resulting in stops at every node, the optimization is necessary to reduce the travel time.
+It is done by doing a greedy approach of removing nodes that can be skipped because the path between them is obstacle free.
+For that a raycast service was implemented in the mapping, that traces a ray for a given distance and checks for obstacles.
+Due to some noise in the grid map, it did not perform as well as expected.
