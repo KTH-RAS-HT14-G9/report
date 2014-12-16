@@ -1,0 +1,16 @@
+\section{Performance}
+Our system did perform reasonably well in the end, and managed to get us third place in the competition. 
+We have all the parts required to perform the main task of the project, i.e. navigate in the maze and recognize objects, return to the start, and then fetch the objects using the map constructed in the first phase. 
+Sadly we did not have time to test the phase two logic in time for the competition, and it was therefore not used.
+The whole system together only works well in simple mazes though. 
+Since some parts of the system are not robust enough, the chance of everything working fully at the same time is not very high in the hard part of the maze. 
+
+Control works alright, but could be better. 
+We can't move as fast some other groups, because of the high risk of crashing. 
+
+Mapping and navigation works very well, drift in the map is never a problem unless we crash. Sometimes we place too many nodes in open areas, which results in time being wasted on pointless exploration.
+
+The vision worked well for the simple objects, but we can't recognize the hollow objects when standing still. 
+Experiments were made with a ``shake controller'' that should shake the robot back and forth when detecting an object, but that did not work well enough.
+
+Integration worked fine until the end when we added a lot of features that needed to be integrated really fast. Then it got messy very quickly and not robust enough.ß
